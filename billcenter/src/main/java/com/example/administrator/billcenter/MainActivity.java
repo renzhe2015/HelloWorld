@@ -2,10 +2,12 @@ package com.example.administrator.billcenter;
 
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        Log.d("hfh",Environment.getExternalStorageDirectory()+"");
         initView();
     }
 
@@ -63,13 +66,16 @@ public class MainActivity extends AppCompatActivity {
 //        oks.setTitleUrl("http://sharesdk.cn");
         // text是分享文本，所有平台都需要这个字段
         oks.setText(mDescription);
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         if(mPic != null && !mPic.equals(""))
             oks.setImageUrl(mPic);
         else
             oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(mUrl);
+        if(mUrl != null && !mUrl.equals(""))
+            oks.setUrl("http://baidu.com");
+        else
+            oks.setUrl(mUrl);
 //        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
 //        oks.setComment("我是测试评论文本");
 //        // site是分享此内容的网站名称，仅在QQ空间使用
@@ -87,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportZoom(false);
         webView.addJavascriptInterface(new DemoJavaScriptInterface(), "demo");
-        webView.loadUrl("https://192.168.163.25/cifbill/");
+        webView.loadUrl("file:///android_asset/shouye.html");
+//        webView.loadUrl("https://192.168.163.25/cifbill/");
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
